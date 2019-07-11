@@ -1,4 +1,3 @@
-
 # Shiny ui for LM
 
 library(shiny)
@@ -8,7 +7,6 @@ source('global.R')
 # Define UI for the application
 
 shinyUI(pageWithSidebar(
-
 
   # Application title
   headerPanel("Fit a Linear Model: Galton's height data"),
@@ -34,7 +32,7 @@ shinyUI(pageWithSidebar(
     tabsetPanel(
       tabPanel(title = 'Slope and intercept',
                plotOutput(outputId = 'fitted.plot'),
-               plotOutput(outputId = 'RSE.plot'))
+               plotOutput(outputId = 'SSE.plot'))
     )
   )
 
