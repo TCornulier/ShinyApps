@@ -55,6 +55,7 @@ fn.SSE.plot <- function(inputData){
          cex= 1, cex.lab= 1.3, col= 1, pty= 16,
          ylim= c(0, 50000))
     segments(x0= 1, x1= 1, y0= 0, y1= tmp)
+    mtext(paste("  SSE= ", tmp), line= -2, adj= 0, cex= 2)
 
 }
 
