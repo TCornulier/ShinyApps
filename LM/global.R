@@ -1,6 +1,11 @@
 lpath <- '/srv/R_library'
 .libPaths(c(lpath, .libPaths()))
 
+# colour-blind-compatible palette
+cb.colors <- c("#000000", "#009E73", "#e79f00", "#9ad0f3", "#0072B2", "#D55E00", "#CC79A7", "#F0E442") 
+# from http://dr-k-lo.blogspot.co.uk/2013/07/a-color-blind-friendly-palette-for-r.html
+# do not use 3, 6 or 8 together (feedback from colour-blind student) 
+
 gal<- list(Hs= c(172.72, 169.418, 161.29, 166.37, 160.02, 176.53, 166.37, 165.1, 
 166.37, 163.83, 182.88, 162.56, 166.37, 175.26, 180.34, 167.64, 
 160.02, 166.37, 171.958, 167.64, 175.26, 190.5, 166.878, 170.18, 
@@ -23,16 +28,35 @@ gal<- list(Hs= c(172.72, 169.418, 161.29, 166.37, 160.02, 176.53, 166.37, 165.1,
 167.05, 171.53, 158.81, 166.32, 174.66, 168.87, 171.48))
 
 
-# Sample distribution: Boxplot
+fn.fitted.plot <- function(inputData){
 
-fn.boxplot <- function(inputData){
-
-    g <- g + theme(legend.position = 'bottom')
-    
-    print(g)
-    
+    plot(gal$Ps, gal$Hs, xlab= "Height of parents (average)", ylab= "Child Height"),
+         cex= 1, cex.lab= 1.3, col= cb.colors[5], 
+         xlim= c(min(gal$Ps-5),max(gal$Ps+5)), 
+         ylim= c(min(gal$Hs-5),max(gal$Hs+5)))
+    lm.pred3<- inputData$Intercept + inputData$Slope * gal$Ps
+    for(i in 1:N){
+    	segments(x0= gal$Ps[i], x1= gal$Ps[i], y0= lm.pred3[i], y1= gal$Hs[i], lwd= 0.5, col= rgb(0, 0, 0, 0.5))
+    }
+    abline(inputData$Intercept, inputData$Slope, col= cb.colors[6], lwd= 2)
+   
 }
 
+fn.SSE<- function(RS.in){
+    lm.pred3<- SSE.in$Intercept + SSE.in$Slope * gal$Ps
+    SSE<- sum((Hs - lm.pred3)^2)
+    SSE
+}
+
+fn.SSE.plot <- function(inputData){
+           
+    tmp<- fn.SSE(inputData)
+    plot(tmp, xlab= "", ylab= "SSE"),
+         cex= 1, cex.lab= 1.3, col= 1, pty= 16,
+         ylim= c(0, 50000))
+    segments(x0= 1, x1= 1, y0= 0, y1= tmp)
+
+}
 
 
 
